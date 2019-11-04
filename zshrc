@@ -101,7 +101,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
 
 if [[ "$IS_DOCKER" == true ]]; then
-  PROMPT="$fg[green][${DOCKER_CONTAINER_NAME:-docker}]$reset_color ${PROMPT}"
+  RPROMPT="%{$fg[green]%}[${DOCKER_CONTAINER_NAME:-docker}]%{$reset_color%}${RPROMPT}"
 fi
 
 unsetopt share_history
