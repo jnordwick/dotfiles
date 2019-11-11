@@ -107,7 +107,7 @@ export EDITOR=vim
 export LBM_LICENSE_FILENAME=/home/jnordwick/29west.lic
 
 if [[ "$IS_DOCKER" == true ]]; then
-  PROMPT="$fg[green][${DOCKER_CONTAINER_NAME:-docker}]$reset_color ${PROMPT}"
+  RPROMPT="%{$fg[green]%}[${DOCKER_CONTAINER_NAME:-docker}]%{$reset_color%}${RPROMPT}"
 fi
 
 unsetopt share_history
