@@ -34,7 +34,6 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 " colorschemes
 Plugin 'flazz/vim-colorschemes'
-Plugin 'ratinglow/vim'
 
 call vundle#end()
 

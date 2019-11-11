@@ -88,7 +88,10 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(
+     evil-escape
+     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -502,6 +505,9 @@ before packages are loaded."
 
   ;; set full path in title bar
   (setq dotspacemacs-frame-title-format "%f")
+
+  ;; make
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++17")))
 
   )
 
