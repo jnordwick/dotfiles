@@ -194,7 +194,7 @@ let mapleader = ","
 
 " set the colorscheme
 set t_Co=256
-colorscheme Tomorrow-Night-Blue
+colorscheme basic-dark
 
 " Workaround to stop make/quickfix from creating a new file
 " set errorformat^=%-GIn\ file\ included\ %.%# 
