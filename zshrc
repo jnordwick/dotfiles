@@ -8,7 +8,7 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="awesomepanda"
+ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -115,4 +115,18 @@ setopt append_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_ignore_space
+
+
+##
+## Useful functions
+###
+function  clog() {
+  stdbuf -o0 awk '\
+    / -D- /{print "\033[30;1m"$0"\033[0m";next}
+    / -W- /{print "\033[33;1m"$0"\033[0m";next}
+    / -E- /{print "\033[35;1m"$0"\033[0m";next}
+    / -C- /{print "\033[31;1m"$0"\033[0m";next}
+           {print $0}'
+}
+
 
