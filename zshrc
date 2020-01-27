@@ -116,7 +116,7 @@ setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_ignore_space
 
-if [[ $(homename) == jnhome ]]; then
+if [[ $(hostname) == jnhome ]]; then
   source /home/jnordwick/.config/broot/launcher/bash/br
 fi
 
