@@ -1,0 +1,79 @@
+BasedOnStyle: Mozilla
+
+# Allow double brackets such as std::vector<std::vector<int>>.
+Standard: c++20
+
+# Indent 4 spaces at a time.
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+SpaceBeforeParens: Always
+
+AllowShortFunctionsOnASingleLine: InlineOnly
+
+# Keep lines under 100 columns long.
+ColumnLimit: 100
+
+# Always break before braces
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: false
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeWhile: true
+  BeforeLambdaBody: true
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+
+# Keeps extern "C" blocks unindented.
+  AfterExternBlock: false
+
+# don't indent branch target labels
+IndentCaseLabels: false
+IndentGotoLabels: false
+
+# Right-align pointers and references
+PointerAlignment: Right
+
+# ANGLE likes to align things as much as possible.
+AlignOperands: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+
+AlignEscapedNewlines: Left
+
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveMacros: true
+AlignConsecutiveDeclarations: true
+AlignOperands: true
+AlignTrailingComments: true
+
+# Use 2 space negative offset for access modifiers
+AccessModifierOffset: -2 
+
+# Doesn't have an "all or none" mode.
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: true
+
+# Useful for spacing out functions in classes
+# jn- set to false since already have brace-only line at func start
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Indent nested PP directives.
+IndentPPDirectives: AfterHash
+
+# Include blocks style
+IncludeBlocks: Regroup
+SortIncludes: CaseInsensitive
+

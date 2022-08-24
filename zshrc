@@ -5,7 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-path=(~/bin /usr/local/bin $path)
+path=(~/bin ~/.emacs.d/bin /usr/local/bin ~/.npm-global/bin $path)
+manpath=(/opt/stdman/share/man $manpath)
 
 setopt extendedglob
 setopt rcexpandparam
@@ -40,14 +41,11 @@ export ARCHFLAGS="-arch x86_64"
 export ZSH_THEME="powerlevel10k/powerlevel10k"
 export ZSH="$HOME/.oh-my-zsh"
 
-export EDITOR=nvim
-export VISUAL=nvim
-
-export LESS='-RFX'
 export PAGER=less
+export LESS='-RFX'
 
-COMPLETION_WAITING_DOTS="%F{red}...%f"
-WORDCHARS=${WORDCHARS//\/[&.;]}          # Don't consider certain characters part of the word
+COMPLETION_WAITING_DOTS="%F{red}\\U2026%f"
+WORDCHARS=${WORDCHARS//\/[&.;]}    # Don't consider certain characters part of the word
 HIST_STAMPS="yyyy-mm-dd"
 HISTFILE=~/.zhistory
 HISTSIZE=10000
@@ -76,14 +74,12 @@ zstyle ':omz:update' frequency 7
 ##
 ## Working zsh help system
 ##
-unalias run-help > /dev/null
 #HELPDIR=/usr/share/zsh/5.9/help # only neede if help dir in strange location
 
 autoload -U run-help
 autoload run-help-git
 autoload run-help-svn
 autoload run-help-svk
-alias help=run-help
 
 bcp() { echo "copying $1 to $1-bak"; cp -r "$1" "${1}-bak"; }
 
@@ -98,20 +94,37 @@ colorwall() {
 
 source $ZSH/oh-my-zsh.sh
 
-##
-## dirs stuff
-##
-#alias p=pushd
-#alias o=popd
-#alias x=pushd
+## history navigation
+#autoload -U history-search-end
+#zle -N history-beginning-search-backward-end history-search-end
+#zle -N history-beginning-search-forward-end history-search-end
+#bindkey "^[[1;5A" history-beginning-search-backward-end
+#bindkey "^[[1;5B" history-beginning-search-forward-end
 
-## dircycle keys C-left and C-right
-bindkey '^[[1;5D' insert-cycledleft
-bindkey '^[[1;5C' insert-cycledright
+## dircycle keys Alt-left and C-right
+#bindkey '^[[1;5D' insert-cycledleft
+#bindkey '^[[1;5C' insert-cycledright
+
+# remove all the lame aliases
+unalias -m '*'
+
+# vims
+export EDITOR=lvim
+export VISUAL=lvim
+alias vi=lvim
+
+# help
+alias help=run-help
 
 # somne in zsh these are getting overwriten so have to come after
-alias vi=nvim
-alias ll='exa -l --git --color=always'
-alias la='exa -a -l --icons --git --color=always'
+alias ll='exa -l --icons --git --color=always -s=Name'
+alias lla='ll -aa'
+alias lw='ll --grid'
+alias lwa='lw -aa'
 alias kk='kde-open'
+
+# pnpm
+export PNPM_HOME="/home/jason/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
 
