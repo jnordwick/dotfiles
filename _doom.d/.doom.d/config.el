@@ -14,9 +14,10 @@
 
 (load! "config-cpp")
 (load! "config-ui")
+(load! "config-treemacs")
 
 (setq doom-font-increment 1)
-(setq text-scale-mode-step 1.05) ; ~1pt around 20
+(setq text-scale-mode-step 1.05) ; ~1pt around 20pts
 
 (setq-default
  delete-by-moving-to-trash t
@@ -53,7 +54,7 @@
 ;;
 (setq org-directory "~/org/")
 
-(after! org
+(after! (org evil)
   (add-hook! 'org-mode-hook #'mixed-pitch-mode)
   (add-hook! 'org-mode-hook #'solaire-mode))
 
@@ -74,18 +75,6 @@
        :n "x" #'counsel-M-x
        :n "E" #'eval-expression))
 
-;;
-;; treemacs
-;;
-(defun me/treemacs-flip ()
-  (interactive)
-  (if (treemacs-is-treemacs-window-selected?)
-      (evil-window-prev 0)
-    (treemacs-select-window)))
-(map! :after treemacs
-      :leader
-      :n "0" #'me/treemacs-flip)
-
 ;; general windows and buffers
 ;;
 (defadvice! prompt-for-buffer (&rest _)
@@ -104,5 +93,4 @@
 
 (map! :leader
       :n "w c" #'me/delete-other-window-for-scrolling)
-
 

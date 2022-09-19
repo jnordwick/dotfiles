@@ -48,7 +48,3 @@
 #"xdotool keyup shift keydown control key 0 keyup control keydown shift"
 #  shift + b:2
 
-"true"
- b:8
-
-

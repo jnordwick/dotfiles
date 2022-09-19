@@ -1,5 +1,6 @@
 ;;; config-modus.el -*- lexical-binding: t; -*-
 
+
 (use-package! modus-themes
   :init
   (setq x-underline-at-descent-line t
@@ -14,7 +15,7 @@
         modus-themes-bold-constructs t
         modus-themes-intense-mouseovers t
         modus-themes-paren-match '(bold intense)
-        modus-themes-syntax '(yellow-comments alt-syntax)
+        modus-themes-syntax '(yellow-comments green-strings alt-syntax)
         modus-themes-links '(neutral-underline background)
         modus-themes-mode-line '(borderless accented)
         modus-themes-tabs-accented t ;; default nil
@@ -40,8 +41,11 @@
 
   (defun +modus-themes-tweak-packages ()
     (modus-themes-with-colors
-      (set-face-attribute 'cursor nil :background (modus-themes-color 'blue))
-      (set-face-attribute 'font-lock-type-face nil :foreground (modus-themes-color 'magenta-alt))
+      (set-face-attribute 'cursor nil
+                                :background (modus-themes-color 'cyan)
+                                :foreground (modus-themes-color 'magenta))
+      (set-face-attribute 'font-lock-type-face nil
+                                :foreground (modus-themes-color 'blue))
       (custom-set-faces
        ;; Tweak `evil-mc-mode'
        `(evil-mc-cursor-default-face ((,class :background ,magenta-intense-bg)))
