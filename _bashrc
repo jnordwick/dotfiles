@@ -1,6 +1,6 @@
 #
 # ~/.bashrc
-#
+
 
 [[ $- != *i* ]] && return
 
@@ -89,12 +89,6 @@ fi
 
 unset use_color safe_term match_lhs sh
 
-#alias cp="cp -i"                          # confirm before overwriting something
-#alias df='df -h'                          # human-readable sizes
-#alias free='free -m'                      # show sizes in MB
-#alias np='nano -w PKGBUILD'
-#alias more=less
-
 xhost +local:root > /dev/null 2>&1
 
 # Bash won't get SIGWINCH if another process is in the foreground.
@@ -129,7 +123,7 @@ ex ()
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
+   esac
   else
     echo "'$1' is not a valid file"
   fi
@@ -157,9 +151,18 @@ colorwall() {
   done
 }
 
+function _emacspick {
+  if [[ -S /var/run/user/${UID}/emacs/server ]]; then
+    emacsclient "$@"
+  else
+    emacs "$@"
+  fi
+}
 export EDITOR=lvim
 export VISUAL=lvim
 alias vi=lvim
+alias v=lvim
+alias emacs=_emacspick
 
 # high dpi -- fractional currently broken
 #export GDK_SCALE=1.25
@@ -168,7 +171,7 @@ alias vi=lvim
 # somne in zsh these are getting overwriten so have to come after
 #alias lsbase='exa --group-directories-first --color=always'
 lsbase() {
-  exa --group-directories-first --color=always -s=Name -h "$@"
+  exa --group-directories-first --color=always -s=Name -Fh "$@"
 }
 alias ls='lsbase --grid -aa -s=Name'
 alias ll='lsbase --icons --git --extended --long'
@@ -189,11 +192,12 @@ qtlog () {
 
 # pnpm
 export PNPM_HOME="/home/jason/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+export PATH="$PNPM_HOME:~/.emacs.d/bin:$PATH"
 # pnpm end
 
 export GOPATH=~/go
 
+set -o ignoreeof 10
 
 eval "$(starship init bash)"
 

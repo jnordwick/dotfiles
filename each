@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function run {
+	cmd="$@"
+	eval $cmd ~/.bashrc _bashrc
+	eval $cmd ~/.clang-format _clang-format
+	eval $cmd ~/.doom.d _doom.d
+	eval $cmd ~/.spacemacs _spacemacs
+	eval $cmd ~/.SpaceVim.d _SpaceVim.d
+	eval $cmd ~/.vimrc _vimrc
+	eval $cmd ~/.xbindkeysrc _xbindkeysrc
+	eval $cmd ~/.zsh.d _zsh.d
+}
+j
+#run cp -fr
+run "$@"
+
