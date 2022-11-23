@@ -1,11 +1,7 @@
 format = """
-[](fg:#ffabe1)${custom.dirs_list}[](fg:#ffabe1)
-[](fg:#25316D)${git_branch}${git_status}[](fg:#25316D bg:#6F38c5)\
-	${c}${custom.cmake_build_type}${golang}${haskell}${java}${rust}[](fg:#6f38C5)
-[](fg:#9a348e)\
-${username}[](bg:#dddddd fg:#9A348E)\
-${directory}[](fg:#dddddd bg:#06969A)\
-${jobs}[](fg:#06969a bg:#7777aa)${time}[ ](fg:#7777aa)\
+([](fg:#25316D)${git_branch}${git_status}([](fg:#25316D bg:#6F38c5)${custom.cmake_build_type})[](fg:#6f38C5)\n)\
+[](fg:#9a348e)${username}[](bg:#dddddd fg:#9A348E)${directory}[](fg:#dddddd bg:#06969A)\
+(${jobs})[ ](fg:#7777aa)\
 """
 
 # Disable the blank line at the start of the prompt
@@ -32,45 +28,29 @@ truncation_symbol = "…"
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
+"crabel/cdev" = "^"
 # Keep in mind that the order matters. For example:
 # "Important Documents" = "  "
 # will not be replaced, because "Documents" was already substituted before.
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important  " = "  "
 
-[c]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ]($style)'
-
 [git_branch]
+disabled = true
 symbol = ""
 style = "bg:#25316D"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
+disabled = true
 style = "bg:#25316D"
 format = '[$all_status$ahead_behind ]($style)'
-
-[golang]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[haskell]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[java]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ]($style)'
 
 [rust]
 symbol = ""
 style = "bg:#86BBD8"
 format = '[ $symbol ]($style)'
+disabled = true
 
 [docker_context]
 symbol = " "
@@ -106,3 +86,4 @@ when='test -n "$(dirs)"'
 command='printf "(%d)" $(dirs -p | wc -l); printf "%s 〉" $(dirs)'
 style="bg:#ffabe1 fg:#2c076f"
 format="[$symbol $output]($style)"
+
