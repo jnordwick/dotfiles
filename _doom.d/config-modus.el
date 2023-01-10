@@ -1,6 +1,5 @@
 ;;; config-modus.el -*- lexical-binding: t; -*-
 
-
 (use-package! modus-themes
   :init
   (setq x-underline-at-descent-line t
@@ -17,7 +16,7 @@
         modus-themes-paren-match '(bold intense)
         modus-themes-syntax '(yellow-comments green-strings alt-syntax)
         modus-themes-links '(neutral-underline background)
-        modus-themes-mode-line '(borderless accented)
+        modus-themes-mode-line '(padded accented)
         modus-themes-tabs-accented t ;; default nil
         modus-themes-completions
         '((matches . (extrabold accented))
@@ -82,6 +81,16 @@
        `(mmm-special-submode-face ((,class :background ,green-refine-bg))))))
 
   (add-hook 'modus-themes-after-load-theme-hook #'+modus-themes-tweak-packages)
+
+  (defun my-modus-themes-custom-faces ()
+    (modus-themes-with-colors
+      (custom-set-faces
+     ;; Replace green with blue if you use `modus-themes-deuteranopia'.
+     `(git-gutter-fr:added ((,class :foreground ,green-fringe-bg)))
+     `(git-gutter-fr:deleted ((,class :foreground ,red-fringe-bg)))
+     `(git-gutter-fr:modified ((,class :foreground ,yellow-fringe-bg))))))
+
+  (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
   :config
   (modus-themes-load-vivendi)

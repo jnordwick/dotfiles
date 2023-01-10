@@ -1,66 +1,51 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+;;
+;; fake pre-load stuff goes here
+;;
+(setq +treemacs-git-mode 'deferred)
+
+;;
+;; the rest
+
+(setq fancy-splash-image "~/.doom.d/crabel-dark-lg.svg")
 
 (setq user-full-name "Jason Nordwick"
-      user-mail-address "jnordwick@gmail.com")
+      user-mail-address "jnordwick@crabel.com")
 
-;; misc defaults
-(use-package! help-fns+)
-
-(load! "config-modus")
-(setq doom-theme 'modus-vivendi)
-
-(load! "config-cpp")
-(load! "config-ui")
-
-(setq doom-font-increment 1)
-(setq text-scale-mode-step 1.05) ; ~1pt around 20
+(setq doom-font-increment 1
+      text-scale-mode-step 1.05)
 
 (setq-default
  delete-by-moving-to-trash t
  window-combination-resize t
  x-stretch-cursor t)
 
-(setq undo-limit 50000000
+(setq undo-limit 1000000
       evil-want-fine-undo t
       auto-save-default t
-      make-backup-file t
+      make-backup-files t
       truncate-string-ellipsis "…"
       scroll-margin 3)
 
-(display-time-mode 1)
-
-(unless (string-match-p "^Power N/A" (battery))
-  (display-battery-mode 1))
-
-(global-subword-mode 1)
-
 (setq display-line-numbers-type 'relative)
+(display-time-mode 1)
 
 (setq
  ;; doom-font (font-spec :family "MesloLGSDZ Nerd Font" :size 20 :weight 'regular)
  ;; doom-font (font-spec :family "Comic Mono" :size 22)
- doom-font (font-spec :family "Fira Code Nerd Font" :size 22 :weight 'regular)
- doom-variable-pitch-font (font-spec :family "Liberation Sans" :size 22 :weight 'regular)
- doom-unicode-font (font-spec :family "Noto Sans Mono" :weight 'regular)
- )
-
+ ;; doom-font (font-spec :family "Lilex NF" :size 18 :weight 'regular)
+doom-font (font-spec :family "FiraCode NF" :size 38  :weight 'semibold)
+;; doom-variable-pitch-font (font-spec :family "Liberation Sans" :size 22 :weight 'regular)
+;; doom-unicode-font (font-spec :family "Noto Sans Mono" :weight 'regular)
+)
+(load! "config-modus")
+(load! "config-ef")
+(load! "config-ui")
 
 ;;
-;; org mode
-;;
-(setq org-directory "~/org/")
-
-(after! org
-  (add-hook! 'org-mode-hook #'mixed-pitch-mode)
-  (add-hook! 'org-mode-hook #'solaire-mode))
-
-
-;;;
-;;; modeline hacking (currently using doom modeline)
-;;;
+;; modeline hacking (currently using doom modeline)
+;
 (use-package minions
   :config
   (minions-mode 1))
@@ -68,41 +53,70 @@
 ;;
 ;; more evil-like
 ;;
-(map! :after counsel
-      :leader
-      (:n ":" nil
-       :n "x" #'counsel-M-x
-       :n "E" #'eval-expression))
-
-;;
-;; treemacs
-;;
-(defun me/treemacs-flip ()
-  (interactive)
-  (if (treemacs-is-treemacs-window-selected?)
-      (evil-window-prev 0)
-    (treemacs-select-window)))
-(map! :after treemacs
-      :leader
-      :n "0" #'me/treemacs-flip)
-
-;; general windows and buffers
-;;
-(defadvice! prompt-for-buffer (&rest _)
-  :after '(evil-window-split evil-window-vsplit)
-  (counsel-switch-buffer))
-
-(defun me/delete-other-window-for-scrolling ()
-  (interactive)
-  (delete-window (other-window-for-scrolling)))
-
-(map! :map global-map
-      "C-M-h" #'evil-window-left
-      "C-M-l" #'evil-window-right
-      "C-M-k" #'evil-window-up
-      "C-M-j" #'evil-window-down)
-
 (map! :leader
-      :n "w c" #'me/delete-other-window-for-scrolling)
+      :g "x" #'execute-extended-command
+      (:g "M-s-;") :g ":" #'eval-expression
+      :g "." #'ffap)
+
+;;
+;; more windows like
+;;
+(map! :map global
+      "M-<f1>" #'embark-bindings
+      "M-<f2>" #'describe-key
+      "<F14>" #'embark-bindings-at-point
+      "<XF86Launch5>" #'embark-bindings-at-point
+      "M-+" #'calc
+      "C-M-+" #'full-calc
+      )
+
+;; fat-fingering this for years
+(map! :map global-map "C-x C-c")
+
+;;
+;; marginalia, orderless
+;;
+(use-package! orderless
+  :custom (completion-styles '(orderless)))
+
+(use-package! marginalia
+  :init (marginalia-mode)
+  :bind
+  (("M-A" . #'marginalia-cycle)
+   :map minibuffer-local-map
+   ("M-A" . #'marginalia-cycle)))
+
+;;
+;; Dired 
+;;
+(map! :leader
+      :prefix ("d" . "dired")
+      :g "d" #'+default/dired
+      :g "j" #'dired-jump
+      :g "C-j" #'dired-jump-other-window
+      :g "f" #'fd-dired
+      :g "F" #'find-dired
+      :g "i" #'image-dired
+      :g "I" #'ido-dired
+      :g "p" #'projectile-dired)
+
+;;
+;; spacemacs style window and buffer switching
+;;
+(map! :leader
+      (:g "w0") (:g "0" #'winum-select-window-0-or-10)
+      (:g "w1") (:g "1" #'winum-select-window-1)
+      (:g "w2") (:g "2" #'winum-select-window-2)
+      (:g "w3") (:g "3" #'winum-select-window-3)
+      (:g "w4") (:g "4" #'winum-select-window-4)
+      (:g "w5") (:g "5" #'winum-select-window-5)
+      (:g "w6") (:g "6" #'winum-select-window-6)
+      (:g "w7") (:g "7" #'winum-select-window-7)
+      (:g "w8") (:g "8" #'winum-select-window-8)
+      (:g "w9") (:g "9" #'winum-select-window-9))
 
 
+;(load! "config-treemacs") ; wrecks lsp for now
+(load! "config-jira")
+(load! "config-org")
+(load! "config-cpp")

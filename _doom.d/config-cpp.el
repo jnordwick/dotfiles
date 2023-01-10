@@ -6,66 +6,72 @@
 ;;
 (make-variable-buffer-local 'compile-command)
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-(setq +format-with-lsp nil)
 (setq c-default-style "user")
-(setq +format-with-lsp nil)
+(setq +format-with-lsp t)
 
-(after! (lsp-mode lsp-ui)
+(add-hook! (cc-mode c++-mode)
+  (make-local-variable 'fill-column)
+  (make-local-variable 'comment-auto-fill-only-comments)
+  (auto-fill-mode t)
+  (setq fill-column 100
+        comment-auto-fill-only-comments t))
+
+(after! lsp-mode
   ;; trim the watch list a little, build and doxygen
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]build$")
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]html$")
-  (setq lsp-clients-clangd-args '("-j=3"
-                                  "-pretty"
-                                  "--std=c++20"
-                                  "--background-index"
-                                  "--clang-tidy"
-                                  "--fallback-style=llvm"
-                                  "--completion-style=detailed"
-                                  "--header-insertion=never"
-                                  "--header-insertion-decorators=0"))
+  (setq lsp-clients-clangd-args
+        (list (concat "-j=" (int-to-string (/ (num-processors) 1)))
+              (concat "--compile-commands-dir=" (projectile-project-root) "/build")
+              "--all-scopes-completion"
+              "--background-index"
+              "--clang-tidy"
+              "--completion-style=detailed"
+              "--fallback-style=mozilla"
+              "--function-arg-placeholders"
+              "--header-insertion=iwyu"
+              "--header-insertion-decorators=1"
+              "--enable-config"
+              "--malloc-trim"
+              "--log=verbose"))
   ;; change doom defaults
-  (setq lsp-enable-text-document-color t
-        lsp-senamtic-tokens-enable t
-        lsp-enable-file-watchers t
-                                        ; doom disaled thsoe below here
-        lsp-enable-indentation nil
-        lsp-enable-on-type-formatting nil
-        lsp-enable-folding nil))
+  (setq lsp-enable-text-document-color nil
+        lsp-semantic-tokens-enable nil
+        lsp-enable-file-watchers nil))
+
 (after! lsp-clangd
   (set-lsp-priority! 'clangd 2)) ; movin' on up
 
 (map! :mode c++-mode
-      :leader
-      :n "]" #'next-error
-      :n "[" #'previous-error)
-
+      :nvi "M-[" #'previous-error)
 ;;
 ;; flycheck
 ;;
+
 (map! :map global-map
       "C-c !" nil)
 
 (map! :after flycheck
       (:map global-map
-       "C-c !" nil)
+            "C-c !" nil)
       (:map flycheck-mode-map
        :prefix ("!" . "flycheck")
-       :n "x" #'flycheck-disable-checker
-       :n "v" #'flycheck-verify-checker
-       :n "V" #'flycheck-version
-       :n "?" #'flycheck-describe-checker
-       :n "s" #'flycheck-select-checker
-       :n "W" #'flycheck-copy-errors-as-kill
-       :n "l" #'flycheck-list-errors
-       :n "i" #'flycheck-manual
-       :n "e" #'flycheck-dispay-error-at-point
-       :n "E" #'flycheck-explain-error-at-point
-       :n "k" #'flycheck-previous-error
-       :n "j" #'flycheck-next-error
-       :n "c" #'flycheck-compile
+       :n "!" #'flycheck-buffer
        :n "~" #'flycheck-clear
-       :n "b" #'flycheck-buffer))
-                                        ;
+       :n "?" #'flycheck-describe-checker
+       :n "{" #'flycheck-previous-error
+       :n "}" #'flycheck-next-error
+       :n "C" #'flycheck-compile
+       :n "E" #'flycheck-dispay-error-at-point
+       :n "I" #'flycheck-manual
+       :n "L" #'flycheck-list-errors
+       :n "R" #'flycheck-explain-error-at-point
+       :n "S" #'flycheck-select-checker
+       :n "V" #'flycheck-verify-checker
+       :n "W" #'flycheck-copy-errors-as-kill
+       :n "X" #'flycheck-disable-checker))
+
+;;
 ;; lsp / refactorings
 ;;
 (map! :after lsp-mode
@@ -84,5 +90,3 @@
        (:prefix ("l" . "look")
         :n "l d" #'lsp-ui-peek-find-definitions
         :n "l r" #'lsp-ui-peek-find-references)))
-
-

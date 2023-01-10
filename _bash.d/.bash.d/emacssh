@@ -1,0 +1,10 @@
+
+function ree {
+    local -g DTS_BASE=${DTS_BASE=~/cdev/dts}
+    pushd $DTS_BASEd
+    killall -sH emacs emacsclient
+    sleep 1
+    disown emacs &
+    popd
+}
+
