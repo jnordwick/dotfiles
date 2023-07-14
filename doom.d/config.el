@@ -8,6 +8,7 @@
 
 ;; misc defaults
 (use-package! help-fns+)
+(setq which-key-idle-delay 0.5)
 
 (load! "config-modus")
 (setq doom-theme 'modus-vivendi)
@@ -43,8 +44,8 @@
 (setq
  ;; doom-font (font-spec :family "MesloLGSDZ Nerd Font" :size 20 :weight 'regular)
  ;; doom-font (font-spec :family "Comic Mono" :size 22)
- doom-font (font-spec :family "Fira Code Nerd Font" :size 22 :weight 'regular)
- doom-variable-pitch-font (font-spec :family "Liberation Sans" :size 22 :weight 'regular)
+ doom-font (font-spec :family "Fira Code Nerd Font" :size 18 :weight 'regular)
+ doom-variable-pitch-font (font-spec :family "Liberation Sans" :size 18 :weight 'regular)
  doom-unicode-font (font-spec :family "Noto Sans Mono" :weight 'regular)
  )
 

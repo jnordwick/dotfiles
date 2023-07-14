@@ -1,8 +1,6 @@
-#
 # ~/.bashrc
-#
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR-/run/user/${uid}}/ssh-agent.socket"
 export GOPATH=~/go
 export PATH="~/bin:~/.local/bin:~/.config/emacs/bin:$PATH"
 
@@ -47,8 +45,8 @@ HISTIGNORE=exit:bg:fg:history:pwd:jobs
 HISTCONTROL=ignoreboth
 shopt -s histappend
 
-alias _lsb='ls --group-directories-first --color=always -s=Name -Fhv'
-alias l=lsb
+alias _lsb='ls --group-directories-first --color=always -Fhv'
+alias l=_lsb
 alias ll='_lsb -l'
 alias la='_lsb -a'
 alias lla='ll -a'

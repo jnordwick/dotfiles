@@ -84,7 +84,9 @@
   (add-hook 'modus-themes-after-load-theme-hook #'+modus-themes-tweak-packages)
 
   :config
-  (modus-themes-load-vivendi)
+  ;(modus-themes-load-vivendi)
+  (load-theme 'modus-vivendi t t)
+  (enable-theme 'modus-vivendi)
   (map! :leader
         :prefix "t" ;; toggle
         :desc "Toggle Modus theme" "m" #'modus-themes-toggle))
